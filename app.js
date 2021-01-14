@@ -11,9 +11,9 @@ var iconpath;
 
 const getData = async ()=>{
     
-    getLocation();
     var address;
-    
+    getLocation();
+
     if(longitude==undefined && latitude==undefined)
     {
         address = 'https://api.openweathermap.org/data/2.5/weather?lat=31.5204&lon=74.3587&appid=66e5e7c714263e64353418c83c6a704a';
@@ -22,6 +22,8 @@ const getData = async ()=>{
     {
         address = 'https://api.openweathermap.org/data/2.5/weather?lat='+latitude+'&lon='+longitude+'&appid=66e5e7c714263e64353418c83c6a704a';
     }
+    console.log(address);
+    
     const fetching = await fetch(address);
     const data= await fetching.json();
 
