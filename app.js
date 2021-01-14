@@ -11,9 +11,18 @@ var iconpath;
 
 const getData = async ()=>{
     
-    checkLocation();
-    var address = `https://api.openweathermap.org/data/2.5/weather?lat=`+latitude+`&lon=`+longitude`&appid=66e5e7c714263e64353418c83c6a704a`;
-    const fetching = await fetch();
+    getLocation();
+    var address;
+    
+    if(longitude==undefined && latitude==undefined)
+    {
+        address = 'https://api.openweathermap.org/data/2.5/weather?lat=31.5204&lon=74.3587&appid=66e5e7c714263e64353418c83c6a704a';
+    }
+    else
+    {
+        address = 'https://api.openweathermap.org/data/2.5/weather?lat='+latitude+'&lon='+longitude+'&appid=66e5e7c714263e64353418c83c6a704a';
+    }
+    const fetching = await fetch(address);
     const data= await fetching.json();
 
     temp = Math.ceil(data.main.feels_like-273.15);
@@ -34,20 +43,18 @@ const getData = async ()=>{
     console.log(temp,weather,city,humidity,windSpeed,iconpath,data);
 }
 
-function checkLocation() {
-    if (navigator.geolocation) 
-    {
-        navigator.geolocation.getCurrentPosition(setPosition);
+function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(setPosition);
+    } else { 
+      console.log("Geolocation is not supported by this browser.");
     }
-    else
-    {
-        console.log("Geolocation is not supported by this browser");
-    }
-}
+  }
 
 function setPosition(position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
+    console.log(latitude,longitude);
 } 
 
 getData();
