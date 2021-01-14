@@ -1,5 +1,6 @@
 var latitude;
 var longitude;
+var address;
 
 var temp;
 var weather;
@@ -9,24 +10,15 @@ var humidity;
 var windSpeed;
 var iconpath;
 
-const getData = async ()=>{
-    
-    var address;
-    getLocation();
+getLocation();
 
-    if(longitude==undefined && latitude==undefined)
-    {
-        address = 'https://api.openweathermap.org/data/2.5/weather?lat=31.5204&lon=74.3587&appid=66e5e7c714263e64353418c83c6a704a';
-    }
-    else
-    {
-        address = 'https://api.openweathermap.org/data/2.5/weather?lat='+latitude+'&lon='+longitude+'&appid=66e5e7c714263e64353418c83c6a704a';
-    }
-    console.log(address);
-    
+const getWeatherData = async ()=>{    
+
+    //fetching data through OpenWeatherMap API
     const fetching = await fetch(address);
     const data= await fetching.json();
 
+    // placing data into variables from API
     temp = Math.ceil(data.main.feels_like-273.15);
     weather = data.weather[0].main;
     city = data.name;
@@ -35,17 +27,17 @@ const getData = async ()=>{
     windSpeed = data.wind.speed+="m/s";
     iconpath= "icons/"+data.weather[0].icon+".png";
 
+    //setting Data in FrontEnd
     document.getElementById('icon').src = iconpath;
     document.getElementById('weather').innerHTML = weather;
     document.getElementById('country').innerHTML = city+" , "+country;
     document.getElementById('temp').innerHTML += temp;
     document.getElementById('humid').innerHTML += humidity;
     document.getElementById('windSpeed').innerHTML += windSpeed;
-
-    console.log(temp,weather,city,humidity,windSpeed,iconpath,data);
 }
 
-function getLocation() {
+function getLocation() 
+{
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(setPosition);
     } else { 
@@ -53,10 +45,11 @@ function getLocation() {
     }
   }
 
-function setPosition(position) {
+function setPosition(position) 
+{
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
-    console.log(latitude,longitude);
+    address = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&appid=66e5e7c714263e64353418c83c6a704a";
+    console.log(address,latitude,longitude);
+    getWeatherData();
 } 
-
-getData();
