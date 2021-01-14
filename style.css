@@ -1,0 +1,21 @@
+
+body{
+    padding:100px;
+    background: url('images/bg1.jpg');
+    font-family: 'Open Sans';
+}
+.glass{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+
+    border-radius:15px;
+    padding:50px;
+    background-color:rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(30px);
+}
+.spans>img{
+    position:relative;
+    top:5px;
+}
